@@ -22,5 +22,11 @@ int main()
 
     cout << dump2[0].key() << endl;
 
+    cout
+<< ReconstructCardNumber(
+      "5471-0712-2573-****",
+      "****-****-****-9527")
+<< endl;
+
     return 0;
 }
