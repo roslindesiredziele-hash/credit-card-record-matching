@@ -10,12 +10,8 @@ using namespace std;
 
 vector<CardRecord> LoadCSV(const string& filename);
 
-string ReconstructCardNumber(
-    const string& firstPart,
-    const string& secondPart);
+string ReconstructCardNumber(const string& firstPart, const string& secondPart);
 
-vector<CardRecord> SortBasedMatch(
-    const vector<CardRecord>& part1,
-    vector<CardRecord> part2);
+vector<CardRecord> SortBasedMatch(const vector<CardRecord>& part1, vector<CardRecord> part2);
 
 #endif
