@@ -69,10 +69,7 @@ bool CompareCards(const CardRecord& a,  const CardRecord& b)
 
 vector<CardRecord> SortBasedMatch(const vector<CardRecord>& part1, vector<CardRecord> part2)
 {
-    sort(
-        part2.begin(),
-        part2.end(),
-        CompareCards);
+    sort(part2.begin(), part2.end(), CompareCards);
 
     vector<CardRecord> result;
 
