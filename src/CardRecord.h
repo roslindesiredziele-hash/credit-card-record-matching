@@ -7,6 +7,7 @@ using namespace std;
 
 class CardRecord
 {
+    public:
     string cardNumber;
     string expiration;
     string pin;
