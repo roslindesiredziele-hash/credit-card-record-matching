@@ -41,18 +41,6 @@ cout << matches[0].expiryDate
 
 cout << matches[0].pin
      << endl;
-SortBasedMatch(dump1, dump2);
-
-cout << dump2[0].expiryDate
-     << " "
-     << dump2[0].pin
-     << endl;
-
-cout << dump2[1].expiryDate
-     << " "
-     << dump2[1].pin
-     << endl;
-
 
     return 0;
 }
