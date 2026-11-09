@@ -28,5 +28,7 @@ int main()
       "****-****-****-9527")
 << endl;
 
+cout << dump2[1].expiryDate << endl;
+
     return 0;
 }
