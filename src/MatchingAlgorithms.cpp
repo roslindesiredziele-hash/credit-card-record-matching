@@ -87,15 +87,19 @@ vector<CardRecord> SortBasedMatch(const vector<CardRecord>& part1, vector<CardRe
 
     for (size_t i = 0; i < part1.size(); i++)
     {
-        CardRecord merged;
+       result.push_back
+       (
+{
+    ReconstructCardNumber(
+        part1[i].cardNumber,
+        part2[i].cardNumber),
 
-        merged.cardNumber = ReconstructCardNumber(part1[i].cardNumber, part2[i].cardNumber);
-        merged.expiryDate = part2[i].expiryDate;
-        merged.verificationCode = part2[i].verificationCode; 
-        merged.pin = part2[i].pin;
-        merged.issuingNetwork = part2[i].issuingNetwork;
-
-        result.push_back(merged);
+    part2[i].expiryDate,
+    part2[i].verificationCode,
+    part2[i].pin,
+    part2[i].issuingNetwork
+}
+);
     }
 
     return result;
