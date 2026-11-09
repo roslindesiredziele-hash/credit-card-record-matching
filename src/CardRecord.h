@@ -3,11 +3,13 @@
 
 #include <string>
 
-struct CardRecord
+using namespace std;
+
+class CardRecord
 {
-    std::string cardNumber;
-    std::string expiration;
-    std::string pin;
+    string cardNumber;
+    string expiration;
+    string pin;
 };
 
 #endif
