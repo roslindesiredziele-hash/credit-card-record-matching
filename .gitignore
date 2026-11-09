@@ -1,0 +1,25 @@
+# Visual Studio / VS Code
+.vs/
+.vscode/
+v18/
+
+# Python virtual environments
+.venv/
+.venv314/
+anaconda_projects/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Databases
+*.db
+*.db-shm
+*.db-wal
+
+# Build outputs
+*.exe
+
+# Object files
+*.o
+*.obj
