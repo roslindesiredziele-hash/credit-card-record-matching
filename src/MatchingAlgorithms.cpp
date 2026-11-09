@@ -83,6 +83,7 @@ vector<CardRecord> SortBasedMatch(const vector<CardRecord>& part1, vector<CardRe
     sort(part2.begin(), part2.end(), CompareCards);
 
     vector<CardRecord> result;
+    result.reserve(part1.size());
 
     for (size_t i = 0; i < part1.size(); i++)
     {
