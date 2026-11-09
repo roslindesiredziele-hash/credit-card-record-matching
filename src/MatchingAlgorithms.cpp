@@ -90,15 +90,13 @@ vector<CardRecord> SortBasedMatch(const vector<CardRecord>& part1, vector<CardRe
        result.push_back
        (
         {
-            ReconstructCardNumber(
-                part1[i].cardNumber,
-                part2[i].cardNumber),
-                part2[i].expiryDate,
-                part2[i].verificationCode,
-                part2[i].pin,
-                part2[i].issuingNetwork
-            }
-        );
+            ReconstructCardNumber(part1[i].cardNumber, part2[i].cardNumber),
+            part2[i].expiryDate,
+            part2[i].verificationCode,
+            part2[i].pin,
+            part2[i].issuingNetwork
+        }
+       );
     }
     
     return result;
