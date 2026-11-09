@@ -62,7 +62,7 @@ bool CompareCards(const CardRecord& a,  const CardRecord& b)
         return monthA < monthB;
     }
 
-    return a.pin < b.pin;
+    return stoi(a.pin) < stoi(b.pin);
 }
 
 vector<CardRecord> SortBasedMatch(const vector<CardRecord>& part1, vector<CardRecord> part2)
