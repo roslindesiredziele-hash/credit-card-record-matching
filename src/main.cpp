@@ -20,5 +20,7 @@ int main()
          << dump2.size()
          << endl;
 
+    cout << dump2[0].key() << endl;
+
     return 0;
 }
