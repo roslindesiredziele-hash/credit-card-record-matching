@@ -42,5 +42,8 @@ cout << matches[0].expiryDate
 cout << matches[0].pin
      << endl;
 
+cout << IsSortedByExpiryAndPin(matches)
+     << endl;
+
     return 0;
 }
