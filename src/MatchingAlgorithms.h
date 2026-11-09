@@ -14,4 +14,8 @@ string ReconstructCardNumber(
     const string& firstPart,
     const string& secondPart);
 
+vector<CardRecord> SortBasedMatch(
+    const vector<CardRecord>& part1,
+    vector<CardRecord> part2);
+
 #endif
