@@ -12,10 +12,12 @@ vector<CardRecord> LoadCSV(const string& filename);
 
 string ReconstructCardNumber(const string& firstPart, const string& secondPart);
 
+bool CompareCards(const CardRecord& a,  const CardRecord& b);
+
 bool IsSortedByExpiryAndPin(const vector<CardRecord>& cards);
 
 vector<CardRecord> SortBasedMatch(const vector<CardRecord>& part1, vector<CardRecord> part2);
 
-bool CompareCards(const CardRecord& a,  const CardRecord& b);
+vector<CardRecord> HashBasedMatch(const vector<CardRecord>& part1, const vector<CardRecord>& part2);
 
 #endif
