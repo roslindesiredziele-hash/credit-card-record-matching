@@ -46,14 +46,25 @@ vector<CardRecord> LoadCSV(const string& filename)
     return cards;
 }
 
-bool CompareCards(const CardRecord& a, const CardRecord& b)
+bool CompareCards(const CardRecord& a,  const CardRecord& b)
 {
-    if (a.expiryDate == b.expiryDate)
+    int monthA = stoi(a.expiryDate.substr(0, 2));
+    int yearA  = stoi(a.expiryDate.substr(3, 4));
+
+    int monthB = stoi(b.expiryDate.substr(0, 2));
+    int yearB  = stoi(b.expiryDate.substr(3, 4));
+
+    if (yearA != yearB)
     {
-        return a.pin < b.pin;
+        return yearA < yearB;
     }
 
-    return a.expiryDate < b.expiryDate;
+    if (monthA != monthB)
+    {
+        return monthA < monthB;
+    }
+
+    return a.pin < b.pin;
 }
 
 vector<CardRecord> SortBasedMatch(const vector<CardRecord>& part1, vector<CardRecord> part2)
