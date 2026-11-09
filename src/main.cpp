@@ -42,5 +42,16 @@ cout << matches[0].expiryDate
 cout << matches[0].pin
      << endl;
 
+cout << part2[0].expiryDate
+     << " "
+     << part2[0].pin
+     << endl;
+
+cout << part2[1].expiryDate
+     << " "
+     << part2[1].pin
+     << endl;
+
+
     return 0;
 }

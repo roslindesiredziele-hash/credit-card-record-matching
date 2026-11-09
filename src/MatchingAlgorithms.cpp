@@ -4,9 +4,7 @@
 #include <sstream>
 #include <algorithm>
 
-string ReconstructCardNumber(
-    const string& firstPart,
-    const string& secondPart)
+string ReconstructCardNumber(const string& firstPart, const string& secondPart)
 {
     return firstPart.substr(0, 15)
         + secondPart.substr(15);
