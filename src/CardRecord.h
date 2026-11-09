@@ -12,6 +12,11 @@ struct CardRecord
     string verificationCode;
     string pin;
     string issuingNetwork;
+
+    string key() const
+    {
+        return expiryDate + "#" + pin;
+    }
 };
 
 #endif
