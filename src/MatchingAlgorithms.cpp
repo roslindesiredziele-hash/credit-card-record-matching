@@ -102,3 +102,17 @@ vector<CardRecord> SortBasedMatch(const vector<CardRecord>& part1, vector<CardRe
     
     return result;
 }
+
+vector<CardRecord> HashBasedMatch(const vector<CardRecord>& part1, const vector<CardRecord>& part2)
+{
+    unordered_map<string, CardRecord> table;
+
+    for (const CardRecord& card : part2)
+    {
+        table[card.key()] = card;
+    }
+
+    vector<CardRecord> result;
+
+    return result;
+}
