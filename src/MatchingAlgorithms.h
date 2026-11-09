@@ -1,19 +1,17 @@
 #ifndef MATCHING_ALGORITHMS_H
 #define MATCHING_ALGORITHMS_H
 
-#include <vector>
 #include "CardRecord.h"
+
+#include <vector>
+#include <string>
 
 using namespace std;
 
 vector<CardRecord> LoadCSV(const string& filename);
 
-vector<CardRecord> SortBasedMatch(
-    const vector<CardRecord>& part1,
-    const vector<CardRecord>& part2);
+string ReconstructCardNumber(const string& firstPart, const string& secondPart);
 
-vector<CardRecord> HashBasedMatch(
-    const vector<CardRecord>& part1,
-    const vector<CardRecord>& part2);
+vector<CardRecord> SortBasedMatch(const vector<CardRecord>& part1, vector<CardRecord> part2);
 
 #endif
