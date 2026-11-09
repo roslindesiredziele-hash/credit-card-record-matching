@@ -30,5 +30,17 @@ int main()
 
 cout << dump2[1].expiryDate << endl;
 
+vector<CardRecord> matches =
+    SortBasedMatch(dump1, dump2);
+
+cout << matches[0].cardNumber
+     << endl;
+
+cout << matches[0].expiryDate
+     << endl;
+
+cout << matches[0].pin
+     << endl;
+
     return 0;
 }
