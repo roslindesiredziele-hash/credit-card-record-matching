@@ -5,9 +5,8 @@
 
 using namespace std;
 
-class CardRecord
+struct CardRecord
 {
-    public:
     string cardNumber;
     string expiryDate;
     string verificationCode;
