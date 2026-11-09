@@ -9,8 +9,10 @@ class CardRecord
 {
     public:
     string cardNumber;
-    string expiration;
+    string expiryDate;
+    string verificationCode;
     string pin;
+    string issuingNetwork;
 };
 
 #endif
