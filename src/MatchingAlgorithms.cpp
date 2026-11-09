@@ -65,6 +65,19 @@ bool CompareCards(const CardRecord& a,  const CardRecord& b)
     return stoi(a.pin) < stoi(b.pin);
 }
 
+bool IsSortedByExpiryAndPin(const vector<CardRecord>& cards)
+{
+    for(size_t i = 1; i < cards.size(); i++)
+    {
+        if (CompareCards(cards[i], cards[i - 1]))
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 vector<CardRecord> SortBasedMatch(const vector<CardRecord>& part1, vector<CardRecord> part2)
 {
     sort(part2.begin(), part2.end(), CompareCards);
