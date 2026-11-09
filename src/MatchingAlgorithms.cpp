@@ -44,3 +44,13 @@ vector<CardRecord> LoadCSV(const string& filename)
 
     return cards;
 }
+
+bool CompareCards(const CardRecord& a, const CardRecord& b)
+{
+    if (a.expiryDate == b.expiryDate)
+    {
+        return a.pin < b.pin;
+    }
+
+    return a.expiryDate < b.expiryDate;
+}
