@@ -109,10 +109,11 @@ vector<CardRecord> HashBasedMatch(const vector<CardRecord>& part1, const vector<
 
     for (const CardRecord& card : part2)
     {
-        table[card.key()] = card;
+        table.emplace(card.key(), card);
     }
 
     vector<CardRecord> result;
+    result.reserve(part1.size());
 
     return result;
 }
