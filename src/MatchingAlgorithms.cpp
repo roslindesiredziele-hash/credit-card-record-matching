@@ -172,3 +172,9 @@ int ExpiryKey(const CardRecord& card)
     return (year - 2024) * 12
            + (month - 1);
 }
+
+int CompositeKey(const CardRecord& card)
+{
+    return ExpiryKey(card) * 10000
+           + stoi(card.pin);
+}
