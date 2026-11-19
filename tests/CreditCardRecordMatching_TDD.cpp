@@ -19,6 +19,19 @@ TEST_CASE("ReconstructCardNumber combines card parts")
     );
 }
 
+TEST_CASE("CompareCards orders by expiry and PIN")
+{
+    CardRecord a;
+    a.expiryDate = "01/2025";
+    a.pin = "1234";
+
+    CardRecord b;
+    b.expiryDate = "02/2025";
+    b.pin = "1234";
+
+    REQUIRE(CompareCards(a, b));
+    REQUIRE_FALSE(CompareCards(b, a));
+}
 
 
 
