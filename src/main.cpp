@@ -42,5 +42,15 @@ cout << "Linear sorted correctly: "
      << IsSortedByExpiryAndPin(linearMatches)
      << endl;
 
+     cout << "Same size: "
+     << (matches.size() ==
+         linearMatches.size())
+     << endl;
+
+cout << "First card equal: "
+     << (matches[0].cardNumber ==
+         linearMatches[0].cardNumber)
+     << endl;
+
     return 0;
 }
