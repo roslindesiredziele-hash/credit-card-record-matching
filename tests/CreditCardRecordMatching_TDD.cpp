@@ -8,6 +8,20 @@
 #include <vector>
 #include <string>
 
+TEST_CASE("ReconstructCardNumber combines card parts")
+{
+    std::string firstPart  = "123456789012345";
+    std::string secondPart = "6789";
+
+    REQUIRE(
+        ReconstructCardNumber(firstPart, secondPart)
+        == "1234567890123456789"
+    );
+}
+
+
+
+
 TEST_CASE("Composite key ordering is preserved", "[counting-sort]")
 {
     std::vector<CardRecord> records =
