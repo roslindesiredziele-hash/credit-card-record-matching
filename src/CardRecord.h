@@ -6,7 +6,7 @@
 using namespace std;
 
 struct CardRecord
-{
+    {
     string cardNumber;
     string expiryDate;
     string verificationCode;
@@ -14,9 +14,9 @@ struct CardRecord
     string issuingNetwork;
 
     string key() const
-    {
+        {
         return expiryDate + "#" + pin;
-    }
-};
+        }
+    };
 
 #endif

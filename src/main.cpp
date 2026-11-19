@@ -1,15 +1,21 @@
 #define WIN32_LEAN_AND_MEAN
 #define NOMINMAX
+
+#include <Windows.h>
+
 #include "MatchingAlgorithms.h"
 
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include <Windows.h>
 
-double MeasureMergeSort( const vector<CardRecord>& dump1, const vector<CardRecord>& dump2,
+using namespace std;
+
+double MeasureMergeSort(
+    const vector<CardRecord> &dump1,
+    const vector<CardRecord> &dump2,
     int repetitions)
-{
+    {
     LARGE_INTEGER start, end, frequency;
 
     QueryPerformanceFrequency(&frequency);
@@ -17,7 +23,7 @@ double MeasureMergeSort( const vector<CardRecord>& dump1, const vector<CardRecor
     double totalTime = 0.0;
 
     for (int i = 0; i < repetitions; i++)
-    {
+        {
         QueryPerformanceCounter(&start);
 
         MergeSortBasedMatch(
@@ -27,19 +33,17 @@ double MeasureMergeSort( const vector<CardRecord>& dump1, const vector<CardRecor
         QueryPerformanceCounter(&end);
 
         totalTime +=
-            (end.QuadPart - start.QuadPart)
-            * 1000.0
-            / frequency.QuadPart;
-    }
+            (end.QuadPart - start.QuadPart) * 1000.0 / frequency.QuadPart;
+        }
 
     return totalTime / repetitions;
-}
+    }
 
 double MeasureLinearSort(
-    const vector<CardRecord>& dump1,
-    const vector<CardRecord>& dump2,
+    const vector<CardRecord> &dump1,
+    const vector<CardRecord> &dump2,
     int repetitions)
-{
+    {
     LARGE_INTEGER start, end, frequency;
 
     QueryPerformanceFrequency(&frequency);
@@ -47,7 +51,7 @@ double MeasureLinearSort(
     double totalTime = 0.0;
 
     for (int i = 0; i < repetitions; i++)
-    {
+        {
         QueryPerformanceCounter(&start);
 
         LinearSortBasedMatch(
@@ -57,16 +61,14 @@ double MeasureLinearSort(
         QueryPerformanceCounter(&end);
 
         totalTime +=
-            (end.QuadPart - start.QuadPart)
-            * 1000.0
-            / frequency.QuadPart;
-    }
+            (end.QuadPart - start.QuadPart) * 1000.0 / frequency.QuadPart;
+        }
 
     return totalTime / repetitions;
-}
+    }
 
 int main()
-{
+    {
     vector<CardRecord> dump1 =
         LoadCSV("./data/carddump1.csv");
 
@@ -76,33 +78,80 @@ int main()
     ofstream outfile("./data/data.csv");
 
     if (!outfile)
-    {
+        {
         cerr << "Unable to open data.csv\n";
         return 1;
-    }
+        }
 
     outfile
-        << "Size,"
-        << "MergeSortMs,"
-        << "LinearSortMs"
-        << endl;
+            << "Size,"
+            << "MergeSortMs,"
+            << "LinearSortMs"
+            << endl;
 
     vector<int> sizes =
-    {
-        100,
-        500,
-        1000,
-        2500,
-        5000,
-        10000,
-        15000,
-        20000
-    };
+        {
+        // 5 - 25
+        5,
+        10,
+        15,
+        20,
+        25,
 
-    const int repetitions = 30;
+        // 25 - 50
+        25,
+        30,
+        35,
+        40,
+        45,
+        50,
+
+        // 50 - 100
+        50,
+        60,
+        70,
+        80,
+        90,
+        100,
+
+        // 100 - 1000
+        100,
+        200,
+        300,
+        400,
+        500,
+        600,
+        700,
+        800,
+        900,
+        1000,
+
+        // 1000 - 2000
+        1000,
+        1200,
+        1400,
+        1600,
+        1800,
+        2000
+        };
 
     for (int size : sizes)
-    {
+        {
+        int repetitions;
+
+        if (size <= 100)
+            {
+            repetitions = 1000;
+            }
+        else if (size <= 1000)
+            {
+            repetitions = 200;
+            }
+        else
+            {
+            repetitions = 50;
+            }
+
         vector<CardRecord> d1(
             dump1.begin(),
             dump1.begin() + size);
@@ -124,26 +173,29 @@ int main()
                 repetitions);
 
         cout
-            << "Size: "
-            << size
-            << " | MergeSort: "
-            << mergeTime
-            << " ms"
-            << " | Linear: "
-            << linearTime
-            << " ms"
-            << endl;
+                << "Size: "
+                << size
+                << " | MergeSort: "
+                << mergeTime
+                << " ms"
+                << " | Linear: "
+                << linearTime
+                << " ms"
+                << endl;
 
         outfile
-            << size
-            << ","
-            << mergeTime
-            << ","
-            << linearTime
-            << endl;
-    }
+                << size
+                << ","
+                << mergeTime
+                << ","
+                << linearTime
+                << endl;
+        }
 
     outfile.close();
 
+    cout << "\nBenchmark completed.\n";
+    cout << "Results saved to ./data/data.csv\n";
+
     return 0;
-}
+    }
