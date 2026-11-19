@@ -8,18 +8,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 enable_testing()
 
 add_executable(
-    CreditCardRecordMatching
-    src/main.cpp
-    src/MatchingAlgorithms.cpp
-)
-
-target_include_directories(
-    CreditCardRecordMatching
-    PRIVATE
-        src
-)
-
-add_executable(
     CreditCardRecordMatching_TDD
     tests/CreditCardRecordMatching_TDD.cpp
     src/MatchingAlgorithms.cpp
