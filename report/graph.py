@@ -52,7 +52,7 @@ for filename, low, high, title in graphs:
             color="red",
             linestyle="--",
             linewidth=2,
-            label="Observed crossover (~850)"
+            label="Observed crossover (~800-900)"
         )
 
     plt.title(title)
