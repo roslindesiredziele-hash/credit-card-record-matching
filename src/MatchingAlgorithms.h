@@ -22,5 +22,13 @@ void MergeSort(vector<CardRecord>& cards, int left, int right);
 
 vector<CardRecord> MergeSortBasedMatch(const vector<CardRecord>& part1, vector<CardRecord> part2);
 
+int ExpiryKey(const CardRecord& card);
+
+int CompositeKey(const CardRecord& card);
+
+void CountingSort(vector<CardRecord>& cards);
+
+vector<CardRecord> LinearSortBasedMatch(const vector<CardRecord>& part1, vector<CardRecord> part2);
+
 
 #endif
