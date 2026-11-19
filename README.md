@@ -1,6 +1,12 @@
 # Credit Card Record Matching
 
+> University of Łódź • Algorithms and Data Structures • Assignment I
+>
+> Comparison of Merge Sort (`O(n log n)`) and Counting Sort (`O(n + k)`) for reconstructing anonymized credit card records.
+
 A C++ project that reconstructs complete credit card records from two anonymized data dumps and compares matching approaches based on asymptotic complexity and empirical performance.
+
+---
 
 ## Overview
 
@@ -12,8 +18,8 @@ Two CSV files contain partial information describing the same set of credit card
 
 The objective is to reconstruct complete card records and evaluate two different matching approaches:
 
-1. A Merge Sort based solution (`O(n log n)`).
-2. A Counting Sort based solution (`O(n + k)`).
+1. **Merge Sort Based Matching** (`O(n log n)`)
+2. **Counting Sort Based Matching** (`O(n + k)`)
 
 The project combines algorithm design, complexity analysis, benchmarking, and performance visualization.
 
@@ -21,7 +27,7 @@ The project combines algorithm design, complexity analysis, benchmarking, and pe
 
 ## Dataset
 
-Each record contains:
+Each record is represented as:
 
 ```cpp
 struct CardRecord
@@ -34,11 +40,13 @@ struct CardRecord
 };
 ```
 
-Dataset size:
+The original dataset contains:
 
 ```text
 20,000 records
 ```
+
+Benchmark experiments are performed on subsets of the dataset ranging from **5 to 2,000 records** to analyze algorithmic behavior across different input sizes.
 
 ---
 
@@ -46,46 +54,60 @@ Dataset size:
 
 ### Merge Sort Based Matching
 
-Records are sorted using a custom Merge Sort implementation and then reconstructed.
+Records from both dumps are sorted using a custom Merge Sort implementation and then matched to reconstruct complete credit card records.
 
-Complexity:
+#### Time Complexity
 
 ```text
 O(n log n)
 ```
 
+#### Characteristics
+
+- Comparison-based sorting algorithm
+- Stable ordering
+- No assumptions about key range
+- Efficient for smaller datasets due to low constant overhead
+
 ---
 
 ### Counting Sort Based Matching
 
-A composite key is constructed:
+A composite integer key is created using the expiration date and PIN:
 
 ```cpp
-CompositeKey = ExpiryKey * 10000 + PIN
+CompositeKey = ExpiryKey * 10000 + PIN;
 ```
 
-where:
+where
 
 ```cpp
 ExpiryKey =
-(year - 2024) * 12 + (month - 1)
+(year - 2024) * 12 + (month - 1);
 ```
 
-Records are then sorted using a custom Counting Sort implementation.
+The resulting composite key is then sorted using a custom Counting Sort implementation.
 
-Complexity:
+#### Time Complexity
 
 ```text
 O(n + k)
 ```
 
-where:
+where
 
 ```text
 k = 720000
 ```
 
-Since the key space is fixed for this problem, the algorithm behaves linearly with respect to the input size.
+Because the key space is fixed, the implementation behaves approximately linearly with respect to input size.
+
+#### Characteristics
+
+- Non-comparison-based sorting algorithm
+- Requires additional memory
+- Large initialization cost due to the counting array
+- Scales better for large datasets
 
 ---
 
@@ -99,7 +121,7 @@ QueryPerformanceCounter()
 
 from the Windows API.
 
-Dataset sizes tested:
+The following dataset sizes were benchmarked:
 
 ```text
 5, 10, 15, 20, 25
@@ -109,36 +131,115 @@ Dataset sizes tested:
 1200, 1400, 1600, 1800, 2000
 ```
 
-Average execution times were recorded over multiple benchmark repetitions.
+For each size:
+
+- A subset of records was selected from the original dataset.
+- Both algorithms were executed repeatedly.
+- Average execution times were recorded.
+- Results were exported to a CSV file for later analysis.
 
 ---
 
 ## Experimental Results
 
-Benchmarking revealed three distinct performance regions:
+The benchmark results highlight the difference between theoretical complexity and practical implementation costs.
 
-- For small datasets (5-700 records), the Merge Sort based solution consistently outperformed the Counting Sort based solution.
-- Around 800-900 records, both algorithms achieved comparable execution times.
-- Beyond approximately 900 records, the Counting Sort based solution consistently outperformed Merge Sort.
+### Key Observations
 
-The experimentally observed crossover point occurred at approximately:
+- For small datasets, Merge Sort generally performs better because it avoids the large fixed initialization cost required by Counting Sort.
+- Counting Sort must allocate and initialize a counting array covering the entire key space (`k = 720000`) regardless of input size.
+- As dataset size increases, the relative impact of this initialization cost decreases.
+- Between approximately **800 and 900 records**, both algorithms achieve similar performance.
+- Beyond this range, Counting Sort consistently outperforms Merge Sort.
+
+The experimentally observed crossover point occurs at approximately:
 
 ```text
-800-900 records
+800–900 records
 ```
 
-This behavior is explained by the fixed initialization cost of the Counting Sort implementation, which allocates a counting array containing 720,000 entries regardless of dataset size.
+This behavior agrees with theoretical expectations. Although Counting Sort has a larger constant factor, its linear growth eventually dominates the logarithmic growth of Merge Sort for sufficiently large datasets.
 
 ---
 
-## Generated Figures
+# Generated Figures
 
-The benchmark results are visualized using:
+All graphs are generated automatically from benchmark results stored in `data/data.csv`.
 
-- Small Inputs (5-100)
-- Transition Region (500-1200)
-- Large Inputs (1000-2000)
-- Logarithmic Comparison (Full Dataset)
+---
+
+## 1. Small Inputs (5–100 Records)
+
+<p align="center">
+  <img src="report/small_inputs.png" alt="Small Inputs Benchmark" width="900">
+</p>
+
+This graph focuses on small datasets where constant factors dominate performance.
+
+### Observations
+
+- Merge Sort consistently outperforms Counting Sort.
+- Counting Sort spends most of its execution time initializing the counting array containing 720,000 entries.
+- The asymptotic advantage of Counting Sort is not yet visible.
+
+As a result, Merge Sort is the more efficient choice for small datasets despite its higher theoretical complexity.
+
+---
+
+## 2. Transition Region (500–1200 Records)
+
+<p align="center">
+  <img src="report/transition_region.png" alt="Transition Region Benchmark" width="900">
+</p>
+
+This graph highlights the range where the performance of both algorithms begins to converge.
+
+### Observations
+
+- Merge Sort execution time grows steadily with input size.
+- Counting Sort remains relatively stable because its running time is dominated by the fixed key-space size.
+- The experimentally observed crossover occurs between approximately 800 and 900 records.
+- The red dashed line indicates the observed crossover region.
+
+This region demonstrates where asymptotic complexity begins to outweigh implementation overhead.
+
+---
+
+## 3. Large Inputs (1000–2000 Records)
+
+<p align="center">
+  <img src="report/large_inputs.png" alt="Large Inputs Benchmark" width="900">
+</p>
+
+This graph focuses on larger datasets where asymptotic performance becomes the dominant factor.
+
+### Observations
+
+- Counting Sort consistently outperforms Merge Sort.
+- Merge Sort follows the expected `O(n log n)` growth trend.
+- Counting Sort exhibits near-linear growth.
+- The performance gap widens as dataset size increases.
+
+The results demonstrate the scalability advantage of Counting Sort for sufficiently large inputs.
+
+---
+
+## 4. Logarithmic Comparison (Full Dataset)
+
+<p align="center">
+  <img src="report/logarithmic_comparison.png" alt="Logarithmic Comparison Benchmark" width="900">
+</p>
+
+A logarithmic y-axis is used to compare both algorithms across all tested dataset sizes.
+
+### Observations
+
+- Small execution-time differences become easier to visualize.
+- The crossover point is clearly visible.
+- Long-term scalability trends are easier to interpret.
+- Both algorithms can be compared across the entire benchmark range on a single figure.
+
+Using a logarithmic scale reveals performance relationships that are harder to observe on a standard linear plot.
 
 ---
 
@@ -171,7 +272,7 @@ cmake --build build
 ### Manual Build
 
 ```bash
-g++ src/main.cpp src/MatchingAlgorithms.cpp -o benchmark
+g++ src/main.cpp src/MatchingAlgorithms.cpp -o benchmark.exe
 ```
 
 ---
@@ -187,17 +288,18 @@ g++ src/main.cpp src/MatchingAlgorithms.cpp -o benchmark
 The program:
 
 1. Loads both card dumps.
-2. Reconstructs the original card records.
-3. Benchmarks the Merge Sort solution.
-4. Benchmarks the Counting Sort solution.
-5. Exports benchmark results.
+2. Reconstructs complete credit card records.
+3. Executes Merge Sort based matching.
+4. Executes Counting Sort based matching.
+5. Measures execution times.
+6. Exports benchmark data to CSV.
 
 Example output:
 
 ```text
-Size: 100 | MergeSort: 0.96 ms | Linear: 9.82 ms
-Size: 500 | MergeSort: 6.70 ms | Linear: 11.27 ms
-Size: 1000 | MergeSort: 15.14 ms | Linear: 13.07 ms
+Size: 100  | MergeSort: 0.96 ms | CountingSort: 9.82 ms
+Size: 500  | MergeSort: 6.70 ms | CountingSort: 11.27 ms
+Size: 1000 | MergeSort: 15.14 ms | CountingSort: 13.07 ms
 ```
 
 ---
@@ -213,7 +315,7 @@ data/data.csv
 Format:
 
 ```csv
-Size,MergeSortMs,LinearSortMs
+Size,MergeSortMs,CountingSortMs
 5,0.020,9.860
 10,0.055,10.706
 ...
@@ -229,7 +331,7 @@ Install dependencies:
 py -3.13 -m pip install pandas matplotlib
 ```
 
-Run:
+Generate the graphs:
 
 ```bash
 py -3.13 graph.py
@@ -279,11 +381,15 @@ credit-card-record-matching
 
 ## Conclusion
 
-Although the Counting Sort based solution has linear complexity, it incurs a significant constant overhead due to the initialization of a counting array containing 720,000 entries. Consequently, Merge Sort performs better for small datasets.
+Although Counting Sort has a linear asymptotic complexity, its implementation introduces a substantial constant overhead because a counting array with 720,000 entries must be initialized for every execution.
 
-Experimental results show that the crossover point occurs at approximately 800-900 records. Beyond this threshold, the Counting Sort solution consistently outperforms Merge Sort, confirming the theoretical expectation that a linear-time algorithm eventually scales better than a log-linear algorithm for sufficiently large inputs.
+This cost dominates performance for small datasets, making Merge Sort the faster solution despite its higher theoretical complexity.
 
-The benchmark results demonstrate the importance of considering both asymptotic complexity and practical implementation costs when evaluating algorithm performance.
+The benchmark results show that Merge Sort is generally more efficient for smaller inputs, while Counting Sort becomes increasingly advantageous as the dataset grows. The experimentally observed crossover occurs at approximately **800–900 records**.
+
+Beyond this point, Counting Sort consistently outperforms Merge Sort, confirming the theoretical expectation that a linear-time algorithm eventually scales better than a log-linear algorithm when input sizes become sufficiently large.
+
+Overall, the project demonstrates that asymptotic complexity alone is not enough to predict real-world performance. Constant factors, memory usage, and implementation details can significantly influence practical running times.
 
 ---
 
@@ -292,3 +398,11 @@ The benchmark results demonstrate the importance of considering both asymptotic 
 **Desire Roslin Dziele**  
 Computer Science Student  
 University of Łódź
+
+---
+
+## License
+
+This project was developed as part of the **Algorithms and Data Structures** coursework at the **University of Łódź** and is intended for educational purposes.
+
+Licensed under the MIT License. See the `LICENSE` file for details.
