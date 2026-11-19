@@ -1,6 +1,8 @@
 # Credit Card Record Matching
 
-> University of Łódź • Algorithms and Data Structures • Assignment I
+[![C++ Build and Test](https://github.com/roslindesiredziele-hash/credit-card-record-matching/actions/workflows/ci.yml/badge.svg)](https://github.com/roslindesiredziele-hash/credit-card-record-matching/actions/workflows/ci.yml)
+
+> University of Łódź • Algorithms I • Assignment I
 >
 > Comparison of Merge Sort (`O(n log n)`) and Counting Sort (`O(n + k)`) for reconstructing anonymized credit card records.
 
@@ -21,7 +23,7 @@ The objective is to reconstruct complete card records and evaluate two different
 1. **Merge Sort Based Matching** (`O(n log n)`)
 2. **Counting Sort Based Matching** (`O(n + k)`)
 
-The project combines algorithm design, complexity analysis, benchmarking, and performance visualization.
+The project combines algorithm design, complexity analysis, benchmarking, unit testing, and performance visualization.
 
 ---
 
@@ -67,7 +69,8 @@ O(n log n)
 - Comparison-based sorting algorithm
 - Stable ordering
 - No assumptions about key range
-- Efficient for smaller datasets due to low constant overhead
+- Lower constant overhead
+- Better performance on smaller datasets
 
 ---
 
@@ -107,7 +110,7 @@ Because the key space is fixed, the implementation behaves approximately linearl
 - Non-comparison-based sorting algorithm
 - Requires additional memory
 - Large initialization cost due to the counting array
-- Scales better for large datasets
+- Better scalability for large datasets
 
 ---
 
@@ -159,6 +162,76 @@ The experimentally observed crossover point occurs at approximately:
 ```
 
 This behavior agrees with theoretical expectations. Although Counting Sort has a larger constant factor, its linear growth eventually dominates the logarithmic growth of Merge Sort for sufficiently large datasets.
+
+---
+
+## Testing
+
+The project includes automated unit tests implemented using the **Catch2** testing framework.
+
+### Test Statistics
+
+- 12 test cases
+- 18 assertions
+- 100% passing tests
+
+### Tested Functionality
+
+The test suite verifies:
+
+- Credit card number reconstruction
+- Card comparison logic
+- Expiry key generation
+- Composite key generation
+- Sorted-order validation
+- Merge Sort correctness
+- Counting Sort correctness
+- Merge Sort based matching
+- Counting Sort based matching
+- CardRecord data integrity
+
+### Running Tests
+
+Build the project:
+
+```bash
+cmake -S . -B build
+cmake --build build --config Release
+```
+
+Execute the test suite:
+
+```bash
+cd build
+ctest -C Release --output-on-failure
+```
+
+Example output:
+
+```text
+Start 1: CreditCardRecordMatchingTests
+1/1 Test #1: CreditCardRecordMatchingTests ... Passed
+
+100% tests passed out of 1
+```
+
+Although CTest reports a single executable, that executable internally contains all Catch2 test cases and assertions.
+
+### Continuous Integration
+
+The repository uses GitHub Actions for Continuous Integration.
+
+On every push and pull request, the workflow automatically:
+
+- Configures the project with CMake
+- Builds the project
+- Executes the complete unit test suite
+
+Workflow file:
+
+```text
+.github/workflows/ci.yml
+```
 
 ---
 
@@ -248,7 +321,7 @@ Using a logarithmic scale reveals performance relationships that are harder to o
 ### Prerequisites
 
 - C++17 compatible compiler
-- CMake 3.20+
+- CMake 3.10+
 - Python 3.13+ (for graph generation)
 
 ### Clone the Repository
@@ -260,53 +333,76 @@ cd credit-card-record-matching
 
 ---
 
-## Build (Windows)
+## Build
 
-### CMake
+### Configure
 
 ```bash
 cmake -S . -B build
+```
+
+### Build
+
+Debug:
+
+```bash
 cmake --build build
 ```
 
-### Manual Build
+Release:
 
 ```bash
-g++ src/main.cpp src/MatchingAlgorithms.cpp -o benchmark.exe
+cmake --build build --config Release
 ```
+
+Build artifacts:
+
+```text
+build/Debug/CreditCardRecordMatching_TDD.exe
+```
+
+or
+
+```text
+build/Release/CreditCardRecordMatching_TDD.exe
+```
+
+depending on the selected configuration.
 
 ---
 
 ## Usage
 
-### Run the Benchmark
+### Run Unit Tests
 
 ```bash
-./benchmark.exe
+cd build
+ctest -C Release --output-on-failure
 ```
 
-The program:
+### Run Catch2 Directly
 
-1. Loads both card dumps.
-2. Reconstructs complete credit card records.
-3. Executes Merge Sort based matching.
-4. Executes Counting Sort based matching.
-5. Measures execution times.
-6. Exports benchmark data to CSV.
+```bash
+build/Release/CreditCardRecordMatching_TDD.exe
+```
 
-Example output:
+List all available test cases:
 
-```text
-Size: 100  | MergeSort: 0.96 ms | CountingSort: 9.82 ms
-Size: 500  | MergeSort: 6.70 ms | CountingSort: 11.27 ms
-Size: 1000 | MergeSort: 15.14 ms | CountingSort: 13.07 ms
+```bash
+build/Release/CreditCardRecordMatching_TDD.exe --list-tests
+```
+
+Display detailed test output:
+
+```bash
+build/Release/CreditCardRecordMatching_TDD.exe -s
 ```
 
 ---
 
-### Benchmark Output
+## Benchmark Output
 
-Results are automatically written to:
+Benchmark results are written to:
 
 ```text
 data/data.csv
@@ -323,7 +419,7 @@ Size,MergeSortMs,CountingSortMs
 
 ---
 
-### Generate Graphs
+## Generate Graphs
 
 Install dependencies:
 
@@ -331,7 +427,7 @@ Install dependencies:
 py -3.13 -m pip install pandas matplotlib
 ```
 
-Generate the graphs:
+Generate graphs:
 
 ```bash
 py -3.13 graph.py
@@ -354,34 +450,43 @@ report/
 ```text
 credit-card-record-matching
 │
+├── .github/
+│   └── workflows/
+│       └── ci.yml
+│
 ├── data/
 │   ├── carddump1.csv
 │   ├── carddump2.csv
 │   └── data.csv
 │
 ├── report/
+|   |── graph.py
 │   ├── small_inputs.png
 │   ├── transition_region.png
 │   ├── large_inputs.png
 │   └── logarithmic_comparison.png
 │
+├── external/
+│   └── catch.hpp
+│
 ├── src/
 │   ├── CardRecord.h
 │   ├── MatchingAlgorithms.h
-│   ├── MatchingAlgorithms.cpp
-│   └── main.cpp
+│   └── MatchingAlgorithms.cpp
 │
-├── graph.py
+├── tests/
+│   └── CreditCardRecordMatching_TDD.cpp
+│
 ├── CMakeLists.txt
 ├── README.md
-└── tests/
+└── LICENSE
 ```
 
 ---
 
 ## Conclusion
 
-Although Counting Sort has a linear asymptotic complexity, its implementation introduces a substantial constant overhead because a counting array with 720,000 entries must be initialized for every execution.
+Although Counting Sort has a linear asymptotic complexity, its implementation introduces a substantial constant overhead because20,000 entries must be initialized for every execution.
 
 This cost dominates performance for small datasets, making Merge Sort the faster solution despite its higher theoretical complexity.
 
@@ -403,6 +508,6 @@ University of Łódź
 
 ## License
 
-This project was developed as part of the **Algorithms and Data Structures** coursework at the **University of Łódź** and is intended for educational purposes.
+This project was developed as part of the **Algorithms I** coursework at the **University of Łódź** and is intended for educational purposes.
 
 Licensed under the MIT License. See the `LICENSE` file for details.
