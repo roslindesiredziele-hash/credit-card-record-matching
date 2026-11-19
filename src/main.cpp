@@ -22,7 +22,7 @@ cout << "Dump2: "
      << endl;
 
 vector<CardRecord> matches =
-    SortBasedMatch(dump1, dump2);
+    MergeSortBasedMatch(dump1, dump2);
 
 cout << "Matched records: "
      << matches.size()
