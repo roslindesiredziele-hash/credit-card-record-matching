@@ -140,24 +140,25 @@ void MergeSort(vector<CardRecord>& cards, int left, int right)
 
 vector<CardRecord> MergeSortBasedMatch(const vector<CardRecord>& part1, vector<CardRecord> part2)
 {
-    sort(part2.begin(), part2.end(), CompareCards);
+    MergeSort(part2, 0, static_cast<int>(part2.size()) - 1);
 
     vector<CardRecord> result;
     result.reserve(part1.size());
 
     for (size_t i = 0; i < part1.size(); i++)
     {
-       result.push_back
-       (
+        result.push_back(
         {
-            ReconstructCardNumber(part1[i].cardNumber, part2[i].cardNumber),
+            ReconstructCardNumber(
+                part1[i].cardNumber,
+                part2[i].cardNumber),
+
             part2[i].expiryDate,
             part2[i].verificationCode,
             part2[i].pin,
             part2[i].issuingNetwork
-        }
-       );
+        });
     }
-    
+
     return result;
 }
