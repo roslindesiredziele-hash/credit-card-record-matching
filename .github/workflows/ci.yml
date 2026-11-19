@@ -1,15 +1,15 @@
-name: C++ Build
+name: C++ Build and Test
 
 on:
   push:
     branches:
-      - master
       - main
+      - master
 
   pull_request:
     branches:
-      - master
       - main
+      - master
 
 jobs:
   build:
@@ -23,3 +23,7 @@ jobs:
 
       - name: Build
         run: cmake --build build --config Release
+
+      - name: Run Tests
+        working-directory: build
+        run: ctest -C Release --output-on-failure
