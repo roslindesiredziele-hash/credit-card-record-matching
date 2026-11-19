@@ -7,7 +7,7 @@ using namespace std;
 
 string ReconstructCardNumber(const string& firstPart, const string& secondPart)
 {
-    return firstPart.substr(0, 15) + secondPart.substr(15);
+    return firstPart.substr(0, 15) + secondPart.substr(0, 4);
 }
 
 vector<CardRecord> LoadCSV(const string& filename)
