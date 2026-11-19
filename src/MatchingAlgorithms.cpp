@@ -206,3 +206,26 @@ void CountingSort(vector<CardRecord>& cards)
 
     cards = output;
 }
+
+vector<CardRecord> LinearSortBasedMatch(const vector<CardRecord>& part1, vector<CardRecord> part2)
+{
+    CountingSort(part2);
+
+    vector<CardRecord> result;
+
+    result.reserve(part1.size());
+
+    for (size_t i = 0; i < part1.size(); i++)
+    {
+        result.push_back(
+        {
+            ReconstructCardNumber(part1[i].cardNumber, part2[i].cardNumber),
+            part2[i].expiryDate,
+            part2[i].verificationCode,
+            part2[i].pin,
+            part2[i].issuingNetwork
+        });
+    }
+
+    return result;
+}
