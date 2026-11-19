@@ -197,17 +197,10 @@ void CountingSort(vector<CardRecord>& cards)
 
     vector<CardRecord> output(cards.size());
 
-    for (int i =
-            static_cast<int>(cards.size()) - 1;
-         i >= 0;
-         i--)
+    for (int i = static_cast<int>(cards.size()) - 1; i >= 0; i--)
     {
-        int key =
-            CompositeKey(cards[i]);
-
-        output[count[key] - 1]
-            = cards[i];
-
+        int key = CompositeKey(cards[i]);
+        output[count[key] - 1] = cards[i];
         count[key]--;
     }
 
