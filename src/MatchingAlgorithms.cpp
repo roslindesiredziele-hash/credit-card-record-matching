@@ -138,7 +138,10 @@ void MergeSort(vector<CardRecord>& cards, int left, int right)
 
 vector<CardRecord> MergeSortBasedMatch(const vector<CardRecord>& part1, vector<CardRecord> part2)
 {
-    MergeSort(part2, 0, static_cast<int>(part2.size()) - 1);
+    if (!part2.empty())
+    {
+        MergeSort(part2, 0, static_cast<int>(part2.size()) - 1);
+    }
 
     vector<CardRecord> result;
     result.reserve(part1.size());
