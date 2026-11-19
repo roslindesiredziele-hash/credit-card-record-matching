@@ -23,12 +23,23 @@ cout << "Dump2: "
 vector<CardRecord> matches =
     MergeSortBasedMatch(dump1, dump2);
 
-cout << "Matched records: "
+cout << "MergeSort Matched records: "
      << matches.size()
      << endl;
 
-cout << "Sorted correctly: "
+cout << "MergeSort Sorted correctly: "
      << IsSortedByExpiryAndPin(matches)
+     << endl;
+
+     vector<CardRecord> linearMatches =
+    LinearSortBasedMatch(dump1, dump2);
+
+cout << "Linear matched records: "
+     << linearMatches.size()
+     << endl;
+
+cout << "Linear sorted correctly: "
+     << IsSortedByExpiryAndPin(linearMatches)
      << endl;
 
     return 0;
