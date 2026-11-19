@@ -38,3 +38,19 @@ TEST_CASE("Merge sort preserves number of records", "[merge-sort]")
     REQUIRE(records.size() == originalSize);
 }
 
+TEST_CASE("CardRecord fields are stored correctly", "[record]")
+{
+    CardRecord card{
+        "1234567890123456",
+        "12/2027",
+        "123",
+        "4321",
+        "Visa"
+    };
+
+    REQUIRE(card.cardNumber == "1234567890123456");
+    REQUIRE(card.expiryDate == "12/2027");
+    REQUIRE(card.verificationCode == "123");
+    REQUIRE(card.pin == "4321");
+    REQUIRE(card.issuingNetwork == "Visa");
+}
