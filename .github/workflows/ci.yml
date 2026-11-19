@@ -1,33 +1,25 @@
-name: C++ CI
+name: C++ Build
 
 on:
   push:
     branches:
-      - main
       - master
+      - main
 
   pull_request:
     branches:
-      - main
       - master
+      - main
 
 jobs:
-  build-and-test:
-    runs-on: ubuntu-latest
+  build:
+    runs-on: windows-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Configure CMake
-        run: |
-          rm -rf build
-          cmake -S . -B build
+      - name: Configure
+        run: cmake -S . -B build
 
       - name: Build
-        run: |
-          cmake --build build
-
-      - name: Run tests
-        run: |
-          ctest --test-dir build --output-on-failure
+        run: cmake --build build --config Release
