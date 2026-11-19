@@ -178,3 +178,38 @@ int CompositeKey(const CardRecord& card)
     return ExpiryKey(card) * 10000
            + stoi(card.pin);
 }
+
+void CountingSort(vector<CardRecord>& cards)
+{
+    const int RANGE = 720000;
+
+    vector<int> count(RANGE, 0);
+
+    for (const auto& card : cards)
+    {
+        count[CompositeKey(card)]++;
+    }
+
+    for (int i = 1; i < RANGE; i++)
+    {
+        count[i] += count[i - 1];
+    }
+
+    vector<CardRecord> output(cards.size());
+
+    for (int i =
+            static_cast<int>(cards.size()) - 1;
+         i >= 0;
+         i--)
+    {
+        int key =
+            CompositeKey(cards[i]);
+
+        output[count[key] - 1]
+            = cards[i];
+
+        count[key]--;
+    }
+
+    cards = output;
+}
