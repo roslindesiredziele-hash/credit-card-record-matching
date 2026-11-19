@@ -79,7 +79,50 @@ bool IsSortedByExpiryAndPin(const vector<CardRecord>& cards)
     return true;
 }
 
-vector<CardRecord> SortBasedMatch(const vector<CardRecord>& part1, vector<CardRecord> part2)
+void Merge(vector<CardRecord>& cards, int left, int mid, int right)
+{
+    int n = right - left + 1;
+
+    vector<CardRecord> temp;
+    temp.reserve(n);
+
+    int i = left;
+    int j = mid + 1;
+
+    while (i <= mid && j <= right)
+    {
+        if (CompareCards(cards[i], cards[j]))
+        {
+            temp.push_back(cards[i]);
+            i++;
+        }
+        else
+        {
+            temp.push_back(cards[j]);
+            j++;
+        }
+    }
+
+    while (i <= mid)
+    {
+        temp.push_back(cards[i]);
+        i++;
+    }
+
+    while (j <= right)
+    {
+        temp.push_back(cards[j]);
+        j++;
+    }
+
+    for (size_t step = 0; step < temp.size(); step++)
+    {
+        cards[left + static_cast<int>(step)]
+            = temp[step];
+    }
+}
+
+vector<CardRecord> MergeSortBasedMatch(const vector<CardRecord>& part1, vector<CardRecord> part2)
 {
     sort(part2.begin(), part2.end(), CompareCards);
 
@@ -100,20 +143,5 @@ vector<CardRecord> SortBasedMatch(const vector<CardRecord>& part1, vector<CardRe
        );
     }
     
-    return result;
-}
-
-vector<CardRecord> HashBasedMatch(const vector<CardRecord>& part1, const vector<CardRecord>& part2)
-{
-    unordered_map<string, CardRecord> table;
-
-    for (const CardRecord& card : part2)
-    {
-        table.emplace(card.key(), card);
-    }
-
-    vector<CardRecord> result;
-    result.reserve(part1.size());
-
     return result;
 }
