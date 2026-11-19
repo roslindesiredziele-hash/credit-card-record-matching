@@ -6,8 +6,6 @@
 #include <vector>
 #include <string>
 
-using namespace std;
-
 vector<CardRecord> LoadCSV(const string& filename);
 
 string ReconstructCardNumber(const string& firstPart, const string& secondPart);

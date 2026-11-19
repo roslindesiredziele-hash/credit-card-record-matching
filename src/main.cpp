@@ -1,3 +1,5 @@
+#define WIN32_LEAN_AND_MEAN
+#define NOMINMAX
 #include "MatchingAlgorithms.h"
 
 #include <iostream>
@@ -5,11 +7,7 @@
 #include <vector>
 #include <Windows.h>
 
-using namespace std;
-
-double MeasureMergeSort(
-    const vector<CardRecord>& dump1,
-    const vector<CardRecord>& dump2,
+double MeasureMergeSort( const vector<CardRecord>& dump1, const vector<CardRecord>& dump2,
     int repetitions)
 {
     LARGE_INTEGER start, end, frequency;
