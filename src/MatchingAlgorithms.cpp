@@ -2,8 +2,6 @@
 
 #include <fstream>
 #include <sstream>
-#include <algorithm>
-#include <unordered_map>
 
 string ReconstructCardNumber(const string& firstPart, const string& secondPart)
 {
