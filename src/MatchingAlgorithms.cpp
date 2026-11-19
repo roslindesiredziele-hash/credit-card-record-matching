@@ -122,6 +122,22 @@ void Merge(vector<CardRecord>& cards, int left, int mid, int right)
     }
 }
 
+void MergeSort(vector<CardRecord>& cards, int left, int right)
+{
+    if (left >= right)
+    {
+        return;
+    }
+
+    int mid =
+        left + (right - left) / 2;
+
+    MergeSort(cards, left, mid);
+    MergeSort(cards, mid + 1, right);
+
+    Merge(cards, left, mid, right);
+}
+
 vector<CardRecord> MergeSortBasedMatch(const vector<CardRecord>& part1, vector<CardRecord> part2)
 {
     sort(part2.begin(), part2.end(), CompareCards);
