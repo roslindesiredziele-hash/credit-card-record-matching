@@ -160,3 +160,15 @@ vector<CardRecord> MergeSortBasedMatch(const vector<CardRecord>& part1, vector<C
 
     return result;
 }
+
+int ExpiryKey(const CardRecord& card)
+{
+    int month =
+        stoi(card.expiryDate.substr(0, 2));
+
+    int year =
+        stoi(card.expiryDate.substr(3, 4));
+
+    return (year - 2024) * 12
+           + (month - 1);
+}
