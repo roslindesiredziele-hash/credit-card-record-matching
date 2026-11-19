@@ -33,7 +33,131 @@ TEST_CASE("CompareCards orders by expiry and PIN")
     REQUIRE_FALSE(CompareCards(b, a));
 }
 
+TEST_CASE("ExpiryKey produces non-negative keys")
+{
+    CardRecord card;
+    card.expiryDate = "01/2025";
 
+    REQUIRE(ExpiryKey(card) >= 0);
+}
+
+TEST_CASE("CompositeKey is non-negative")
+{
+    CardRecord card;
+    card.expiryDate = "01/2025";
+    card.pin = "1234";
+
+    REQUIRE(CompositeKey(card) >= 0);
+}
+
+TEST_CASE("IsSortedByExpiryAndPin recognizes sorted sequence")
+{
+    std::vector<CardRecord> cards(3);
+
+    cards[0].expiryDate = "01/2025";
+    cards[0].pin = "1111";
+
+    cards[1].expiryDate = "02/2025";
+    cards[1].pin = "2222";
+
+    cards[2].expiryDate = "03/2025";
+    cards[2].pin = "3333";
+
+    REQUIRE(IsSortedByExpiryAndPin(cards));
+}
+
+TEST_CASE("MergeSort preserves vector size")
+{
+    std::vector<CardRecord> cards(3);
+
+    cards[0].expiryDate = "03/2025";
+    cards[0].pin = "3333";
+
+    cards[1].expiryDate = "01/2025";
+    cards[1].pin = "1111";
+
+    cards[2].expiryDate = "02/2025";
+    cards[2].pin = "2222";
+
+    auto originalSize = cards.size();
+
+    MergeSort(cards, 0, static_cast<int>(cards.size()) - 1);
+
+    REQUIRE(cards.size() == originalSize);
+    REQUIRE(IsSortedByExpiryAndPin(cards));
+}
+
+TEST_CASE("CountingSort preserves vector size")
+{
+    std::vector<CardRecord> cards(3);
+
+    cards[0].expiryDate = "03/2025";
+    cards[0].pin = "3333";
+
+    cards[1].expiryDate = "01/2025";
+    cards[1].pin = "1111";
+
+    cards[2].expiryDate = "02/2025";
+    cards[2].pin = "2222";
+
+    auto originalSize = cards.size();
+
+    CountingSort(cards);
+
+    REQUIRE(cards.size() == originalSize);
+}
+
+TEST_CASE("MergeSortBasedMatch reconstructs all records")
+{
+    std::vector<CardRecord> part1(2);
+    std::vector<CardRecord> part2(2);
+
+    part1[0].cardNumber = "123456789012345";
+    part1[0].expiryDate = "01/2025";
+    part1[0].pin = "1111";
+
+    part1[1].cardNumber = "555555555555555";
+    part1[1].expiryDate = "02/2025";
+    part1[1].pin = "2222";
+
+    part2[0].cardNumber = "6789";
+    part2[0].expiryDate = "01/2025";
+    part2[0].pin = "1111";
+
+    part2[1].cardNumber = "9999";
+    part2[1].expiryDate = "02/2025";
+    part2[1].pin = "2222";
+
+    auto result = MergeSortBasedMatch(part1, part2);
+
+    REQUIRE(result.size() == 2);
+}
+
+TEST_CASE("LinearSortBasedMatch reconstructs all records")
+{
+    std::vector<CardRecord> part1(2);
+    std::vector<CardRecord> part2(2);
+
+    part1[0].cardNumber = "123456789012345";
+    part1[0].expiryDate = "01/2025";
+    part1[0].pin = "1111";
+
+    part1[1].cardNumber = "555555555555555";
+    part1[1].expiryDate = "02/2025";
+    part1[1].pin = "2222";
+
+    part2[0].cardNumber = "6789";
+    part2[0].expiryDate = "01/2025";
+    part2[0].pin = "1111";
+
+    part2[1].cardNumber = "9999";
+    part2[1].expiryDate = "02/2025";
+    part2[1].pin = "2222";
+
+    auto result = LinearSortBasedMatch(part1, part2);
+
+    REQUIRE(result.size() == 2);
+}
 
 TEST_CASE("Composite key ordering is preserved", "[counting-sort]")
 {
