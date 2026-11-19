@@ -16,6 +16,10 @@ int main()
             return 1;
         }
 
+        outfile
+        <<" MergeSortBasedMatch,"
+        <<" LinearBasedMatch" << endl;
+
     
 
     return 0;
